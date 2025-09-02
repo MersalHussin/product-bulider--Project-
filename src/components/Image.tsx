@@ -7,7 +7,7 @@ className?:string;
 
 const Image = ({imageUrl,altText,className}: IProps ) => {
     return (
-        <img src={imageUrl} className={className} alt={altText}></img>
+        <img src={imageUrl} className={className}  alt={altText}></img>
     );
 }
 
