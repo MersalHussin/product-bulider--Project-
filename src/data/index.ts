@@ -1,4 +1,4 @@
-import type { IProudct } from "../components/interface";
+import type { IFormInput, IProudct } from "../components/interface";
 
 export const productList: IProudct[] = [
   {
@@ -62,3 +62,42 @@ export const productList: IProudct[] = [
     },
   },
 ];
+
+
+export const fromInputList: IFormInput[] = [
+  {
+    id: 1,
+    label: "Title",
+    name: "title",
+    type: "text",
+    placeholder: "Enter product title",
+  }
+  ,{
+    id: 2,
+    label: "Description",
+    name: "description",
+    type: "text",
+    placeholder: "Enter product description",
+  }
+  ,{
+    id: 3,
+    label: "Image URL",
+    name: "imageUrl",
+    type: "text",
+    placeholder: "Enter product image URL",
+  }
+  ,{
+    id: 4,
+    label: "Price",
+    name: "price",
+    type: "number",
+    placeholder: "Enter product price",
+  }
+  ,{
+    id: 5,
+    label: "Category",
+    name: "category",
+    type: "text",
+    placeholder: "Enter product category",
+  }
+]

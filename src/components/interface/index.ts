@@ -10,3 +10,11 @@ export  interface IProudct{
         imageUrl:string;
     }
 }
+
+export interface IFormInput{
+    id:number;
+    label:string;
+    name:string;
+    type:string;
+    placeholder:string;
+}
