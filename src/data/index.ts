@@ -93,11 +93,4 @@ export const fromInputList: IFormInput[] = [
     type: "number",
     placeholder: "Enter product price",
   }
-  ,{
-    id: 5,
-    label: "Category",
-    name: "category",
-    type: "text",
-    placeholder: "Enter product category",
-  }
 ]

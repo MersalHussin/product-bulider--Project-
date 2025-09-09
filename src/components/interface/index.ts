@@ -14,7 +14,7 @@ export  interface IProudct{
 export interface IFormInput{
     id:number;
     label:string;
-    name:string;
+    name:"title" | "description" | "imageUrl" | "price" ;
     type:string;
     placeholder:string;
 }

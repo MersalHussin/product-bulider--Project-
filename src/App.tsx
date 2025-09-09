@@ -9,10 +9,30 @@ import { fromInputList, productList } from './data'; // افترضت أن هذه
 import type { IFormInput, IProudct } from './components/interface';
 
 const App: React.FC = () => {
+  // --- STATES ---
+  const [product, setProduct] = useState<IProudct>({
+    id: 0,
+    title: '',
+    description: '',
+    imageUrl: '',
+    price: 0,
+    category: { name: '', imageUrl: '' },
+    colors: [],
+  });
   const [isOpen, setIsOpen] = useState(false);
   
   // ٢. نحدد نوع useRef بشكل صريح ليخبر TypeScript أنه سيشير إلى عنصر إدخال
   const firstInputRef = useRef<HTMLInputElement>(null);
+
+  // --- HANDELER ---
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    setProduct({
+      ...product,
+      [name]: value
+    })
+  };
 
   function closeModal() {
     setIsOpen(false);
@@ -22,6 +42,8 @@ const App: React.FC = () => {
     setIsOpen(true);
   }
 
+
+  // --- Reneder Methods ---
   const renderProductList = productList.map((product: IProudct) => {
     return <ProudctCard key={product.id} product={product} />;
   });
@@ -36,6 +58,8 @@ const App: React.FC = () => {
           name={input.name}
           placeholder={input.placeholder}
           ref={index === 0 ? firstInputRef : undefined}
+          value={product[input.name]}
+          onChange={onChangeHandler}
         />
       </div>
     );
