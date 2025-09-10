@@ -9,8 +9,8 @@ import { fromInputList, productList } from './data'; // افترضت أن هذه
 import type { IFormInput, IProudct } from './components/interface';
 
 const App: React.FC = () => {
-  // --- STATES ---
-  const [product, setProduct] = useState<IProudct>({
+
+  const defultProduct = {
     id: 0,
     title: '',
     description: '',
@@ -18,13 +18,20 @@ const App: React.FC = () => {
     price: 0,
     category: { name: '', imageUrl: '' },
     colors: [],
-  });
+  }
+  // --- STATES ---
+  const [product, setProduct] = useState<IProudct>(defultProduct);
   const [isOpen, setIsOpen] = useState(false);
   
   // ٢. نحدد نوع useRef بشكل صريح ليخبر TypeScript أنه سيشير إلى عنصر إدخال
   const firstInputRef = useRef<HTMLInputElement>(null);
 
   // --- HANDELER ---
+  const submitHandler = (e : React.FormEvent) :void => {
+    e.preventDefault();
+    console.log(product);
+    closeModal();
+  }
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -36,6 +43,7 @@ const App: React.FC = () => {
 
   function closeModal() {
     setIsOpen(false);
+    setProduct(defultProduct);
   }
 
   function openModal() {
@@ -73,13 +81,13 @@ const App: React.FC = () => {
         title="Add a new product" 
         initialFocus={firstInputRef}
       >
-        <div className="my-5">
+        <form className="my-5" onSubmit={submitHandler}>
           {renderFormInput}
-        </div>
         <div className="flex gap-3 justify-start">
-          <Button className="flex-1 bg-blue-600 ...">Submit</Button>
+          <Button  className="flex-1 bg-blue-600 ...">Submit</Button>
           <Button onClick={closeModal} className="flex-1 bg-gray-600 ...">Cancel</Button>
         </div>
+      </form>
       </Model>
 
       <Button 
