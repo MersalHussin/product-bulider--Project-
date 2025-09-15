@@ -10,7 +10,7 @@ interface IProps {
 const ProudctCard = ({product}: IProps) => {
   return (
     <>
-      <div key={product.id} className="border-1 border-gray-400 p-5 rounded-md text-md font-bold  flex flex-col">
+      <div key={product.id} className="border-1 border-gray-400 max-w-100 m-auto p-5 rounded-md text-md font-bold  flex flex-col">
         <div className="overflow-hidden rounded-md">
           <Image
             className="hover:rounded-2xl object-cover hover:scale-105 transition-all w-full h-50 "

@@ -7,6 +7,8 @@ import Input from './components/ui/Input';
 import Button from './components/ui/Button';   // افترضت أن هذا المكون موجود
 import { fromInputList, productList } from './data'; // افترضت أن هذه البيانات موجودة
 import type { IFormInput, IProudct } from './components/interface';
+import { productValidation } from './validation';
+import ErrorMessage from './components/ui/ErrorMessage';
 
 const App: React.FC = () => {
 
@@ -15,13 +17,14 @@ const App: React.FC = () => {
     title: '',
     description: '',
     imageUrl: '',
-    price: 0,
+    price: '',
     category: { name: '', imageUrl: '' },
     colors: [],
   }
   // --- STATES ---
   const [product, setProduct] = useState<IProudct>(defultProduct);
   const [isOpen, setIsOpen] = useState(false);
+  const [errors , setErrors] = useState({title:"" , description:"" ,imageUrl:"", price:"" });
   
   // ٢. نحدد نوع useRef بشكل صريح ليخبر TypeScript أنه سيشير إلى عنصر إدخال
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -29,15 +32,32 @@ const App: React.FC = () => {
   // --- HANDELER ---
   const submitHandler = (e : React.FormEvent) :void => {
     e.preventDefault();
-    console.log(product);
+    const errors = productValidation({
+      title:product.title
+      ,descraption:product.description
+      ,price:product.price
+      ,imageUrl:product.imageUrl })
+    console.log(errors);
+    // Check if any property has a value of "" && check if all props have a value of ""
+    const hasErrorMsg = Object.values(errors).some(value => value == '') && Object.values(errors).every(value => value == "")
+    console.log(errors);
+    if(!hasErrorMsg){
+      setErrors(errors)
+      return;
+    }
+    console.log("Send This to our server");
     closeModal();
   }
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(name, value);
+    
     setProduct({
       ...product,
       [name]: value
+    })
+    setErrors({
+      ...errors,
+      [name]:""
     })
   };
 
@@ -69,6 +89,7 @@ const App: React.FC = () => {
           value={product[input.name]}
           onChange={onChangeHandler}
         />
+        <ErrorMessage msg={errors[input.name]}/>
       </div>
     );
   });
