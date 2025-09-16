@@ -18,3 +18,14 @@ export interface IFormInput{
     type:string;
     placeholder:string;
 }
+
+export const colors: string[] = [
+    "#e45689",
+    "#000000",
+    "#e45689",
+    "#ff00ff",
+    "#e45689",
+    
+    
+
+]

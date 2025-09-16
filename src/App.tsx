@@ -6,9 +6,10 @@ import Model from './components/ui/Modal';
 import Input from './components/ui/Input';
 import Button from './components/ui/Button';   // افترضت أن هذا المكون موجود
 import { fromInputList, productList } from './data'; // افترضت أن هذه البيانات موجودة
-import type { IFormInput, IProudct } from './components/interface';
+import { colors, type IFormInput, type IProudct } from './components/interface';
 import { productValidation } from './validation';
 import ErrorMessage from './components/ui/ErrorMessage';
+import CircleColor from './components/ui/CircleColor';
 
 const App: React.FC = () => {
 
@@ -24,8 +25,9 @@ const App: React.FC = () => {
   // --- STATES ---
   const [product, setProduct] = useState<IProudct>(defultProduct);
   const [isOpen, setIsOpen] = useState(false);
+  const [tempColors, setTempColors] = useState<string[]>([]);
   const [errors , setErrors] = useState({title:"" , description:"" ,imageUrl:"", price:"" });
-  
+  console.log(tempColors);
   // ٢. نحدد نوع useRef بشكل صريح ليخبر TypeScript أنه سيشير إلى عنصر إدخال
   const firstInputRef = useRef<HTMLInputElement>(null);
 
@@ -94,6 +96,8 @@ const App: React.FC = () => {
     );
   });
 
+  const renderProductColors = colors.map((color,id) => <CircleColor color={color} onClick={() =>setTempColors((prev)=> [...prev,color])} key={id}/>)
+
   return (
     <main className="container mx-auto">
       <Model 
@@ -104,6 +108,11 @@ const App: React.FC = () => {
       >
         <form className="my-5" onSubmit={submitHandler}>
           {renderFormInput}
+          <div className='flex gap-1 justify-center itee'>
+
+          {renderProductColors}
+          </div>
+
         <div className="flex gap-3 justify-start">
           <Button  className="flex-1 bg-blue-600 ...">Submit</Button>
           <Button onClick={closeModal} className="flex-1 bg-gray-600 ...">Cancel</Button>
