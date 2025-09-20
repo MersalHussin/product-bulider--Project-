@@ -11,6 +11,7 @@ import { productValidation } from "./validation";
 import ErrorMessage from "./components/ui/ErrorMessage";
 import CircleColor from "./components/ui/CircleColor";
 import { v4 as uuid } from "uuid";
+import SelectMenu from "./components/ui/SelectMenu";
 
 const App: React.FC = () => {
   const defultProduct = {
@@ -147,6 +148,7 @@ const App: React.FC = () => {
               </span>
             ))}
           </div>
+          <SelectMenu/>
 
           <div className="flex gap-3 justify-start">
             <Button className="flex-1 bg-blue-600 ...">Submit</Button>
