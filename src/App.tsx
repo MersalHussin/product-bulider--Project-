@@ -6,7 +6,8 @@ import Model from "./components/ui/Modal";
 import Input from "./components/ui/Input";
 import Button from "./components/ui/Button"; // افترضت أن هذا المكون موجود
 import { fromInputList, productList } from "./data"; // افترضت أن هذه البيانات موجودة
-import { colors, type IFormInput, type IProudct } from "./components/interface";
+import {type IFormInput, type IProudct } from "./components/interface";
+import { colors} from "./data/index";
 import { productValidation } from "./validation";
 import ErrorMessage from "./components/ui/ErrorMessage";
 import CircleColor from "./components/ui/CircleColor";
@@ -136,8 +137,11 @@ const App: React.FC = () => {
       >
         <form className="my-5" onSubmit={submitHandler}>
           {renderFormInput}
-          <div className="flex gap-1 justify-center">{renderProductColors}</div>
-          <div className="flex flex-wrap m-2 gap-1 justify-center">
+          <div className="mb-5">
+            <SelectMenu/>
+          </div>
+          <div className="flex gap-1 justify-left">{renderProductColors}</div>
+          <div className="flex flex-wrap my-2 gap-1 justify-left">
             {tempColors.map((color) => (
               <span
                 key={color}
@@ -148,7 +152,6 @@ const App: React.FC = () => {
               </span>
             ))}
           </div>
-          <SelectMenu/>
 
           <div className="flex gap-3 justify-start">
             <Button className="flex-1 bg-blue-600 ...">Submit</Button>

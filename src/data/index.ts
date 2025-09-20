@@ -1,4 +1,4 @@
-import type { IFormInput, IProudct } from "../components/interface";
+import type { ICatogory, IFormInput, IProudct } from "../components/interface";
 import { v4 as uuid } from "uuid";
 
 export const productList: IProudct[] = [
@@ -95,3 +95,37 @@ export const fromInputList: IFormInput[] = [
     placeholder: "Enter product price",
   }
 ]
+
+
+export const colors: string[] = [
+    "#e45689",
+    "#000000",
+    "#ff00ff",
+    "#ff4d6d",
+"#1a1a1a",
+"#ff1493",
+"#ff9900",
+"#33ffcc",
+"#6600ff",
+"#ff3333",
+"#00ff66"
+]
+
+export const categories:ICatogory[] = [
+{
+  id: uuid(),
+name: "Nike",
+imageURL:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkws1bvvVgNdEReB_WisksTeGCbYTDSrVbQw&s"
+},
+{
+  id: uuid(),
+name: "Clothes",
+imageURL:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRJZnEATwmwHTK0rpsEymZIEcLBX-5lVQCasq3DrSnLMTVXApFQehsoa8AaZmJMQy5UxY&usqp=CAU"
+},
+{
+  id: uuid(),
+name: "Freestyle",
+imageURL:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeIY969YenTvHsgWRjmSsFWgpWdnRS0aEaYw&s"
+},
+
+];
