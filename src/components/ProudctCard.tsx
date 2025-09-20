@@ -1,16 +1,26 @@
 import Image from "./Image";
 import type { IProudct } from "./interface";
 import Button from "./ui/Button";
+import CircleColor from "./ui/CircleColor";
 import { textSlicer } from "./utils/functions";
 
 interface IProps {
   product: IProudct
 }
 
+
+
 const ProudctCard = ({product}: IProps) => {
+
+    const renderProductColors = product.colors.map((color) => (
+    <CircleColor
+      color={color}
+      key={`${color}`}
+    />
+  ));
   return (
     <>
-      <div key={product.id} className="border-1 border-gray-400 max-w-100 m-auto p-5 rounded-md text-md font-bold  flex flex-col">
+      <div key={product.id} className="border-1 border-gray-400 min-w-100 max-w-100 m-auto p-5 rounded-md text-md font-bold  flex flex-col">
         <div className="overflow-hidden rounded-md">
           <Image
             className="hover:rounded-2xl object-cover hover:scale-105 transition-all w-full h-50 "
@@ -29,9 +39,8 @@ const ProudctCard = ({product}: IProps) => {
               className={`w-5 h-5 bg-${color}-400  rounded-2xl cursor-pointer`}
             ></span>
           ))} */}
-                <span className={`w-5 h-5 bg-blue-500  rounded-2xl cursor-pointer`}></span>
-                <span className={`w-5 h-5 bg-red-500  rounded-2xl cursor-pointer`}></span>
-                <span className={`w-5 h-5 bg-green-400  rounded-2xl cursor-pointer`}></span>
+          <div className="flex gap-1 justify-center">{renderProductColors}</div>
+
         </div>
         <div className="flex justify-between items-center">
           <span>{product.price}$</span>

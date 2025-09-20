@@ -1,5 +1,5 @@
 export  interface IProudct{
-    id:number;
+    id:string;
     title:string;
     description:string;
     imageUrl:string;
@@ -22,10 +22,16 @@ export interface IFormInput{
 export const colors: string[] = [
     "#e45689",
     "#000000",
-    "#e45689",
     "#ff00ff",
-    "#e45689",
-    
+    "#ff4d6d",
+"#1a1a1a",
+"#ff1493",
+"#ff9900",
+"#33ffcc",
+"#6600ff",
+"#ff3333",
+"#00ff66"
+
     
 
 ]
