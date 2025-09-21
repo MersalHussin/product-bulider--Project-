@@ -5,7 +5,7 @@ import ProudctCard from "./components/ProudctCard"; // افترضت أن هذا 
 import Model from "./components/ui/Modal";
 import Input from "./components/ui/Input";
 import Button from "./components/ui/Button"; // افترضت أن هذا المكون موجود
-import { fromInputList, productList } from "./data"; // افترضت أن هذه البيانات موجودة
+import { categories, fromInputList, productList } from "./data"; // افترضت أن هذه البيانات موجودة
 import {type IFormInput, type IProudct } from "./components/interface";
 import { colors} from "./data/index";
 import { productValidation } from "./validation";
@@ -19,9 +19,9 @@ const App: React.FC = () => {
     id: "",
     title: "",
     description: "",
-    imageUrl: "",
+    imageURL: "",
     price: "",
-    category: { name: "", imageUrl: "" },
+    category: { name: "", imageURL: "" },
     colors: [],
   };
   // --- STATES ---
@@ -29,11 +29,13 @@ const App: React.FC = () => {
   const [product, setProduct] = useState<IProudct>(defultProduct);
   const [isOpen, setIsOpen] = useState(false);
   const [tempColors, setTempColors] = useState<string[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState(categories[0])
   const [errors, setErrors] = useState({
     title: "",
     description: "",
-    imageUrl: "",
+    imageURL: "",
     price: "",
+    colors: "sadsa",
   });
   console.log(tempColors);
   // ٢. نحدد نوع useRef بشكل صريح ليخبر TypeScript أنه سيشير إلى عنصر إدخال
@@ -42,28 +44,37 @@ const App: React.FC = () => {
   // --- HANDELER ---
   const submitHandler = (e: React.FormEvent): void => {
     e.preventDefault();
-    const errors = productValidation({
+    
+    // Convert tempColors to the format expected by the validation
+    const validationResult = productValidation({
       title: product.title,
       descraption: product.description,
       price: product.price,
-      imageUrl: product.imageUrl,
+      imageURL: product.imageURL,
+      colors: tempColors, // Use tempColors for validation
     });
-    console.log(errors);
-    // Check if any property has a value of "" && check if all props have a value of ""
-    const hasErrorMsg =
-      Object.values(errors).some((value) => value == "") &&
-      Object.values(errors).every((value) => value == "");
-    console.log(errors);
-    if (!hasErrorMsg) {
-      setErrors(errors);
-      return;
+    
+    // Set errors from validation
+    setErrors(validationResult);
+    
+    // Check if there are any validation errors
+    const hasErrors = Object.values(validationResult).some(error => error !== "");
+    
+    if (hasErrors) {
+      return; // Stop form submission if there are errors
     }
 
-    setProducts(prev => [{...product, id:uuid() , colors:tempColors}, ...prev ])
-    setProduct(defultProduct)
-    setTempColors([])
-
-    console.log("Send This to our server");
+    // If no errors, proceed with form submission
+    setProducts(prev => [{
+      ...product, 
+      id: uuid(),
+      colors: tempColors,
+      category: selectedCategory
+    }, ...prev]);
+    
+    // Reset form
+    setProduct(defultProduct);
+    setTempColors([]);
     closeModal();
   };
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,24 +119,34 @@ const App: React.FC = () => {
           value={product[input.name]}
           onChange={onChangeHandler}
         />
+        
         <ErrorMessage msg={errors[input.name]} />
       </div>
     );
   });
 
-  const renderProductColors = colors.map((color) => (
-    <CircleColor
-      color={color}
-      key={color}
-      onClick={() => {
-        if (tempColors.includes(color)) {
-          setTempColors((prev) => prev.filter((item) => item !== color));
-          return;
-        }
-        setTempColors((prev) => [...prev, color]);
-      }}
-    />
-  ));
+  const renderProductColors = colors.map((color) => {
+    const isSelected = tempColors.includes(color);
+    return (
+      <div key={color} className="relative">
+        <CircleColor
+          color={color}
+          onClick={() => {
+            if (isSelected) {
+              setTempColors((prev) => prev.filter((item) => item !== color));
+            } else {
+              setTempColors((prev) => [...prev, color]);
+            }
+            // Clear color error when user selects a color
+            if (errors.colors) {
+              setErrors(prev => ({...prev, colors: ''}));
+            }
+          }}
+          className={`transition-transform ${isSelected ? 'ring-2 ring-offset-2 ring-indigo-500 scale-110' : ''} ${errors.colors ? 'ring-2 ring-red-500' : ''}`}
+        />
+      </div>
+    );
+  });
 
   return (
     <main className="container mx-auto">
@@ -138,9 +159,13 @@ const App: React.FC = () => {
         <form className="my-5" onSubmit={submitHandler}>
           {renderFormInput}
           <div className="mb-5">
-            <SelectMenu/>
+            <SelectMenu selected={selectedCategory} setSelected={setSelectedCategory}/>
           </div>
-          <div className="flex gap-1 justify-left">{renderProductColors}</div>
+          <div className="mb-2">
+            <label className="font-semibold block mb-1">Colors</label>
+            <div className="flex gap-1 justify-left">{renderProductColors}</div>
+            {errors.colors && <ErrorMessage msg={errors.colors} />}
+          </div>
           <div className="flex flex-wrap my-2 gap-1 justify-left">
             {tempColors.map((color) => (
               <span

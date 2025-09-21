@@ -1,13 +1,13 @@
 interface IProps{
-imageUrl:string;
+imageURL:string;
 altText:string;
 className?:string;
 }
 
 
-const Image = ({imageUrl,altText,className}: IProps ) => {
+const Image = ({imageURL,altText,className}: IProps ) => {
     return (
-        <img src={imageUrl} className={className}  alt={altText}></img>
+        <img src={imageURL} className={className}  alt={altText}></img>
     );
 }
 

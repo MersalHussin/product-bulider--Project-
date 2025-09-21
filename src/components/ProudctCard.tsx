@@ -20,12 +20,12 @@ const ProudctCard = ({product}: IProps) => {
   ));
   return (
     <>
-      <div key={product.id} className="border-1 border-gray-400 min-w-100 max-w-100 m-auto p-5 rounded-md text-md font-bold  flex flex-col">
+      <div key={product.id} className="border-1 border-gray-400 min-w-85 max-w-85 m-auto p-5 rounded-md text-md font-bold  flex flex-col">
         <div className="overflow-hidden rounded-md">
           <Image
             className="hover:rounded-2xl object-cover hover:scale-105 transition-all w-full h-50 "
-            imageUrl= {product.imageUrl}
-            altText={product.imageUrl}
+            imageURL= {product.imageURL}
+            altText={product.imageURL}
           />
         </div>
         <h4 className="mt-4 mb-2 text-2xl">{product.title}</h4>
@@ -46,8 +46,8 @@ const ProudctCard = ({product}: IProps) => {
           <span>{product.price}$</span>
           <Image
             className="w-10 h-10 h object-cover  rounded-full"
-            imageUrl={product.imageUrl}
-            altText={product.imageUrl}
+            imageURL={product.category.imageURL}
+            altText={product.title}
           />
         </div>
         <div className="buttons flex gap-3">

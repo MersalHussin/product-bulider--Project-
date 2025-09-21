@@ -2,19 +2,19 @@ export  interface IProudct{
     id:string;
     title:string;
     description:string;
-    imageUrl:string;
+    imageURL:string;
     price:string;
     colors:string[];
     category:{
         name:string;
-        imageUrl:string;
+        imageURL:string;
     }
 }
 
 export interface IFormInput{
     id:number;
     label:string;
-    name:"title" | "description" | "imageUrl" | "price" ;
+    name:"title" | "description" | "imageURL" | "price" | "colors" ;
     type:string;
     placeholder:string;
 }
