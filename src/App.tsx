@@ -80,11 +80,59 @@ const App: React.FC = () => {
     setTempColors([]);
     closeModal();
   };
+  
+  const submitEditHandler = (e: React.FormEvent): void => {
+    e.preventDefault();
+    
+    // Convert tempColors to the format expected by the validation
+    const validationResult = productValidation({
+      title: product.title,
+      descraption: product.description,
+      price: product.price,
+      imageURL: product.imageURL,
+      colors: tempColors, // Use tempColors for validation
+    });
+    
+    // Set errors from validation
+    setErrors(validationResult);
+    
+    // Check if there are any validation errors
+    const hasErrors = Object.values(validationResult).some(error => error !== "");
+    
+    if (hasErrors) {
+      return; // Stop form submission if there are errors
+    }
+
+    // If no errors, proceed with form submission
+    setProducts(prev => [{
+      ...product, 
+      id: uuid(),
+      colors: tempColors,
+      category: selectedCategory
+    }, ...prev]);
+    
+    // Reset form
+    setProduct(defultProduct);
+    setTempColors([]);
+    closeModal();
+  };
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setProduct({
       ...product,
+      [name]: value,
+    });
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
+  };
+  const onChangeEditHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setProductToEdit({
+      ...proudctToEdit,
       [name]: value,
     });
     setErrors({
@@ -215,9 +263,24 @@ const App: React.FC = () => {
         title="Edit Product"
         initialFocus={firstInputRef}
       >
-        <form className="my-5" onSubmit={submitHandler}>
-          {renderFormInput}
-          <div className="mb-5">
+        <form className="my-5" onSubmit={submitEditHandler}>
+            <div className="flex flex-col gap-2 mb-2">
+        <label htmlFor={"title"} className="font-semibold">
+          Product Title
+        </label>
+        <Input
+          id={"title"}
+          type= "text"
+          name={"title"}
+          placeholder={"title"}
+          value={proudctToEdit.title}
+          onChange={onChangeEditHandler}
+        />
+        
+        <ErrorMessage msg={errors["title"]} />
+      </div>
+          {/* {renderFormInput} */}
+          {/* <div className="mb-5">
             <SelectMenu selected={selectedCategory} setSelected={setSelectedCategory}/>
           </div>
           <div className="mb-2">
@@ -235,7 +298,7 @@ const App: React.FC = () => {
                 {color}
               </span>
             ))}
-          </div>
+          </div> */}
 
           <div className="flex gap-3 justify-start">
             <Button className="flex-1 bg-blue-600 ...">Submit</Button>
