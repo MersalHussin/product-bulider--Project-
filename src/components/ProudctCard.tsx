@@ -7,12 +7,13 @@ import { textSlicer } from "./utils/functions";
 interface IProps {
   product: IProudct
   setProductToEdit: (product:IProudct) => void
+  openEditModal: () => void
 }
 
 
 
 // -------------- Render ---------------
-const ProudctCard = ({product, setProductToEdit}: IProps) => {
+const ProudctCard = ({product, setProductToEdit , openEditModal}: IProps) => {
 
     const renderProductColors = product.colors.map((color) => (
     <CircleColor
@@ -24,6 +25,7 @@ const ProudctCard = ({product, setProductToEdit}: IProps) => {
 // --------------Handelr---------------
 const onEdit = () =>{
 setProductToEdit(product)
+openEditModal()
 }
 
   return (
