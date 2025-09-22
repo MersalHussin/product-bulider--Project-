@@ -1,3 +1,5 @@
+import type { TProductsName } from "../types";
+
 export  interface IProudct{
     id:string;
     title:string;
@@ -14,7 +16,7 @@ export  interface IProudct{
 export interface IFormInput{
     id:number;
     label:string;
-    name:"title" | "description" | "imageURL" | "price" | "colors" ;
+    name:TProductsName
     type:string;
     placeholder:string;
 }

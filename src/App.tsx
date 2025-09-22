@@ -13,6 +13,7 @@ import ErrorMessage from "./components/ui/ErrorMessage";
 import CircleColor from "./components/ui/CircleColor";
 import { v4 as uuid } from "uuid";
 import SelectMenu from "./components/ui/SelectMenu";
+import type { TProductsName } from "./components/types";
 
 const App: React.FC = () => {
   const defultProduct = {
@@ -86,10 +87,10 @@ const App: React.FC = () => {
     
     // Convert tempColors to the format expected by the validation
     const validationResult = productValidation({
-      title: product.title,
-      descraption: product.description,
-      price: product.price,
-      imageURL: product.imageURL,
+      title: proudctToEdit.title,
+      descraption: proudctToEdit.description,
+      price: proudctToEdit.price,
+      imageURL: proudctToEdit.imageURL,
       colors: tempColors, // Use tempColors for validation
     });
     
@@ -112,7 +113,7 @@ const App: React.FC = () => {
     }, ...prev]);
     
     // Reset form
-    setProduct(defultProduct);
+    setProductToEdit(defultProduct);
     setTempColors([]);
     closeModal();
   };
@@ -207,6 +208,26 @@ const App: React.FC = () => {
     );
   });
 
+  const renderProductEdit = (id:string , name:TProductsName ,label: string , type:string  ) => {
+    return(
+                  <div className="flex flex-col gap-2 mb-2">
+        <label htmlFor={name} className="font-semibold">
+          {label}
+        </label>
+        <Input
+          id={id}
+          type= {type}
+          name={name}
+          placeholder={""}
+          value={proudctToEdit[name]}
+          onChange={onChangeEditHandler}
+        />
+        
+        <ErrorMessage msg={errors[name]} />
+      </div>
+    )
+  }
+
   return (
     <main className="container mx-auto">
       <Button className="bg-indigo-600 ..." onClick={openModal}>
@@ -264,21 +285,10 @@ const App: React.FC = () => {
         initialFocus={firstInputRef}
       >
         <form className="my-5" onSubmit={submitEditHandler}>
-            <div className="flex flex-col gap-2 mb-2">
-        <label htmlFor={"title"} className="font-semibold">
-          Product Title
-        </label>
-        <Input
-          id={"title"}
-          type= "text"
-          name={"title"}
-          placeholder={"title"}
-          value={proudctToEdit.title}
-          onChange={onChangeEditHandler}
-        />
-        
-        <ErrorMessage msg={errors["title"]} />
-      </div>
+            {renderProductEdit("title" , "title" , "Title" , "text")}
+            {renderProductEdit("description" , "description" , "Description" , "text")}
+            {renderProductEdit("imageURL" , "imageURL" , "ImageURL" , "text")}
+            {renderProductEdit("price" , "price" , "Price" , "number")}
           {/* {renderFormInput} */}
           {/* <div className="mb-5">
             <SelectMenu selected={selectedCategory} setSelected={setSelectedCategory}/>
