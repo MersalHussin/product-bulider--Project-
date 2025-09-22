@@ -8,12 +8,14 @@ interface IProps {
   product: IProudct
   setProductToEdit: (product:IProudct) => void
   openEditModal: () => void
+  setProductToEditIdx : (value:number) => void
+  idx: number
 }
 
 
 
 // -------------- Render ---------------
-const ProudctCard = ({product, setProductToEdit , openEditModal}: IProps) => {
+const ProudctCard = ({product, setProductToEdit , openEditModal , setProductToEditIdx ,idx}: IProps) => {
 
     const renderProductColors = product.colors.map((color) => (
     <CircleColor
@@ -25,6 +27,7 @@ const ProudctCard = ({product, setProductToEdit , openEditModal}: IProps) => {
 // --------------Handelr---------------
 const onEdit = () =>{
 setProductToEdit(product)
+setProductToEditIdx(idx)
 openEditModal()
 }
 

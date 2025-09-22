@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { useState, useRef } from "react";
+import { useState, useRef, Fragment } from "react";
 import ProudctCard from "./components/ProudctCard"; // افترضت أن هذا المكون موجود
 import Model from "./components/ui/Modal";
 import Input from "./components/ui/Input";
@@ -29,6 +29,7 @@ const App: React.FC = () => {
   const [products, setProducts] = useState<IProudct[]>(productList);
   const [product, setProduct] = useState<IProudct>(defultProduct);
   const [proudctToEdit, setProductToEdit] = useState<IProudct>(defultProduct);
+  const [proudctToEditIdx, setProductToEditIdx] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [tempColors, setTempColors] = useState<string[]>([]);
@@ -40,8 +41,9 @@ const App: React.FC = () => {
     price: "",
     colors: "",
   });
-  console.log(tempColors);
-  console.log(proudctToEdit);
+  // console.log(tempColors);
+  // console.log(proudctToEdit);
+  console.log(proudctToEditIdx);
   // ٢. نحدد نوع useRef بشكل صريح ليخبر TypeScript أنه سيشير إلى عنصر إدخال
   const firstInputRef = useRef<HTMLInputElement>(null);
 
@@ -64,7 +66,7 @@ const App: React.FC = () => {
     // Check if there are any validation errors
     const hasErrors = Object.values(validationResult).some(error => error !== "");
     
-    if (hasErrors) {
+    if (!hasErrors) {
       return; // Stop form submission if there are errors
     }
 
@@ -100,22 +102,17 @@ const App: React.FC = () => {
     // Check if there are any validation errors
     const hasErrors = Object.values(validationResult).some(error => error !== "");
     
-    if (hasErrors) {
+    if (!hasErrors) {
       return; // Stop form submission if there are errors
     }
 
-    // If no errors, proceed with form submission
-    setProducts(prev => [{
-      ...product, 
-      id: uuid(),
-      colors: tempColors,
-      category: selectedCategory
-    }, ...prev]);
-    
-    // Reset form
+      const updatedProducts = [...products]
+    updatedProducts[proudctToEditIdx] = proudctToEdit
+    setProducts(updatedProducts)
+
     setProductToEdit(defultProduct);
     setTempColors([]);
-    closeModal();
+    closeEditModal();
   };
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -160,8 +157,14 @@ const App: React.FC = () => {
   }
 
   // --- Reneder Methods ---
-  const renderProductList = products.map((product: IProudct) => {
-    return <ProudctCard openEditModal={openEditModal} setProductToEdit={setProductToEdit} key={product.id} product={product} />;
+  const renderProductList = products.map((product: IProudct , idx) => {
+    return(
+      <Fragment key={idx}>
+      <h3 className="inline-block text-center text-3xl">{idx}</h3>
+      <ProudctCard idx={idx} setProductToEditIdx={setProductToEditIdx} openEditModal={openEditModal} setProductToEdit={setProductToEdit} key={product.id} product={product} />
+      </Fragment>
+
+    ) 
   });
 
   const renderFormInput = fromInputList.map((input: IFormInput, index) => {
@@ -289,30 +292,10 @@ const App: React.FC = () => {
             {renderProductEdit("description" , "description" , "Description" , "text")}
             {renderProductEdit("imageURL" , "imageURL" , "ImageURL" , "text")}
             {renderProductEdit("price" , "price" , "Price" , "number")}
-          {/* {renderFormInput} */}
-          {/* <div className="mb-5">
-            <SelectMenu selected={selectedCategory} setSelected={setSelectedCategory}/>
-          </div>
-          <div className="mb-2">
-            <label className="font-semibold block mb-1">Colors</label>
-            <div className="flex gap-1 justify-left">{renderProductColors}</div>
-            {errors.colors && <ErrorMessage msg={errors.colors} />}
-          </div>
-          <div className="flex flex-wrap my-2 gap-1 justify-left">
-            {tempColors.map((color) => (
-              <span
-                key={color}
-                className="rounded-sm text-white p-1"
-                style={{ background: color }}
-              >
-                {color}
-              </span>
-            ))}
-          </div> */}
 
           <div className="flex gap-3 justify-start">
-            <Button className="flex-1 bg-blue-600 ...">Submit</Button>
-            <Button onClick={closeModal} className="flex-1 bg-gray-600 ...">
+            <Button type="submit" className="flex-1 bg-blue-600 ...">Submit</Button>
+            <Button onClick={closeEditModal} className="flex-1 bg-gray-600 ...">
               Cancel
             </Button>
           </div>
