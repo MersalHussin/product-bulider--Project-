@@ -27,6 +27,7 @@ const App: React.FC = () => {
   // --- STATES ---
   const [products, setProducts] = useState<IProudct[]>(productList);
   const [product, setProduct] = useState<IProudct>(defultProduct);
+  const [proudctToEdit, setProductToEdit] = useState<IProudct>(defultProduct);
   const [isOpen, setIsOpen] = useState(false);
   const [tempColors, setTempColors] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState(categories[0])
@@ -35,9 +36,10 @@ const App: React.FC = () => {
     description: "",
     imageURL: "",
     price: "",
-    colors: "sadsa",
+    colors: "",
   });
   console.log(tempColors);
+  console.log(proudctToEdit);
   // ٢. نحدد نوع useRef بشكل صريح ليخبر TypeScript أنه سيشير إلى عنصر إدخال
   const firstInputRef = useRef<HTMLInputElement>(null);
 
@@ -101,7 +103,7 @@ const App: React.FC = () => {
 
   // --- Reneder Methods ---
   const renderProductList = products.map((product: IProudct) => {
-    return <ProudctCard key={product.id} product={product} />;
+    return <ProudctCard setProductToEdit={setProductToEdit} key={product.id} product={product} />;
   });
 
   const renderFormInput = fromInputList.map((input: IFormInput, index) => {

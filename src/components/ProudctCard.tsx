@@ -6,11 +6,13 @@ import { textSlicer } from "./utils/functions";
 
 interface IProps {
   product: IProudct
+  setProductToEdit: (product:IProudct) => void
 }
 
 
 
-const ProudctCard = ({product}: IProps) => {
+// -------------- Render ---------------
+const ProudctCard = ({product, setProductToEdit}: IProps) => {
 
     const renderProductColors = product.colors.map((color) => (
     <CircleColor
@@ -18,6 +20,12 @@ const ProudctCard = ({product}: IProps) => {
       key={`${color}`}
     />
   ));
+
+// --------------Handelr---------------
+const onEdit = () =>{
+setProductToEdit(product)
+}
+
   return (
     <>
       <div key={product.id} className="border-1 border-gray-400 min-w-85 max-w-85 m-auto p-5 rounded-md text-md font-bold  flex flex-col">
@@ -51,7 +59,7 @@ const ProudctCard = ({product}: IProps) => {
           />
         </div>
         <div className="buttons flex gap-3">
-          <Button  className="bg-blue-600" width="w-full">Edit</Button>
+          <Button  className="bg-blue-600" width="w-full" onClick={onEdit}>Edit</Button>
           <Button className="bg-red-500" width="w-full">Delete</Button>
 
         </div>
