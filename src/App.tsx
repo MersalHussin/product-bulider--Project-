@@ -11,7 +11,7 @@ import { colors } from "./data/index";
 import { productValidation } from "./validation";
 import ErrorMessage from "./components/ui/ErrorMessage";
 import CircleColor from "./components/ui/CircleColor";
-import { v4 as uuid } from "uuid";
+import { v4 as uuid, } from "uuid";
 import SelectMenu from "./components/ui/SelectMenu";
 import type { TProductsName } from "./components/types";
 
@@ -126,7 +126,7 @@ const App: React.FC = () => {
 
   function closeModal() {
     setIsOpen(false);
-    setProduct(defultProduct);
+    // setProduct(defultProduct);
   }
 
   function openModal() {
@@ -135,7 +135,6 @@ const App: React.FC = () => {
 
   function closeEditModal() {
     setIsOpenEdit(false);
-    setProductToEdit(defultProduct);
     setTempColors([]);
   }
 
@@ -262,7 +261,7 @@ const App: React.FC = () => {
           </div>
           <div className="flex gap-3 justify-start">
             <Button className="flex-1 bg-blue-600 ...">Submit</Button>
-            <Button onClick={closeModal} className="flex-1 bg-gray-600 ...">
+            <Button type="button" onClick={closeModal} className="flex-1 bg-gray-600 ...">
               Cancel
             </Button>
           </div>
@@ -285,6 +284,9 @@ const App: React.FC = () => {
           {renderProductEdit("description", "description", "Description", "text")}
           {renderProductEdit("imageURL", "imageURL", "ImageURL", "text")}
           {renderProductEdit("price", "price", "Price", "number")}
+             <div className="mb-5">
+            <SelectMenu selected={proudctToEdit.category} setSelected={(value)=> (setProductToEdit({...proudctToEdit , category: value}))} />
+          </div>
           <div className="mb-2">
             <label className="font-semibold block mb-1">Colors</label>
             <div className="flex gap-1 justify-left">{renderProductColors}</div>
@@ -308,7 +310,7 @@ const App: React.FC = () => {
             <Button type="submit" className="flex-1 bg-blue-600 ...">
               Submit
             </Button>
-            <Button onClick={closeEditModal} className="flex-1 bg-gray-600 ...">
+            <Button type="button" onClick={closeEditModal} className="flex-1 bg-gray-600 ...">
               Cancel
             </Button>
           </div>
