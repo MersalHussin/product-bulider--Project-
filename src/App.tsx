@@ -14,6 +14,7 @@ import CircleColor from "./components/ui/CircleColor";
 import { v4 as uuid, } from "uuid";
 import SelectMenu from "./components/ui/SelectMenu";
 import type { TProductsName } from "./components/types";
+import toast, { Toaster } from 'react-hot-toast'
 
 const App: React.FC = () => {
   const defultProduct = {
@@ -30,8 +31,10 @@ const App: React.FC = () => {
   const [products, setProducts] = useState<IProudct[]>(productList);
   const [product, setProduct] = useState<IProudct>(defultProduct);
   const [proudctToEdit, setProductToEdit] = useState<IProudct>(defultProduct);
+  const [ProductToRemove, setProductToRemove] = useState<IProudct>(defultProduct)
   const [proudctToEditIdx, setProductToEditIdx] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [isRemoveOpen, setIsRemoveOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [tempColors, setTempColors] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
@@ -80,6 +83,8 @@ const App: React.FC = () => {
     setProduct(defultProduct);
     setTempColors([]);
     closeModal();
+        toast.success("Product Has been Added",{})
+
   };
 
   const submitEditHandler = (e: React.FormEvent): void => {
@@ -110,6 +115,8 @@ const App: React.FC = () => {
     setProductToEdit(defultProduct);
     setTempColors([]);
     closeEditModal();
+    toast.success("Product Has been Editied",{})
+
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,6 +130,17 @@ const App: React.FC = () => {
     setProductToEdit({ ...proudctToEdit, [name]: value });
     setErrors({ ...errors, [name]: "" });
   };
+
+  const removeHandler = () =>{
+    console.log("Product Removed")
+    setProducts((prev) => prev.filter((product)=> product.id !== ProductToRemove.id))
+    closeRemoveModal()
+    toast.success("Product Has been Deleated",{})
+  }
+  
+
+
+  // Models
 
   function closeModal() {
     setIsOpen(false);
@@ -144,21 +162,28 @@ const App: React.FC = () => {
     setTempColors(productToEdit.colors || []);
     setIsOpenEdit(true);
   }
+  function openRemoveModal() {
+    setIsRemoveOpen(true)
+  }
+  function closeRemoveModal() {
+    setIsRemoveOpen(false)
+  }
 
   // --- RENDER METHODS ---
   const renderProductList = products.map((product: IProudct, idx) => (
-    <Fragment key={product.id}>
-      <ProudctCard
-        setProductToEdit={setProductToEdit}
-        setProductToEditIdx= {setProductToEditIdx}
-        idx={idx}
-        openEditModal={() => openEditModal(product, idx)}
-        key={product.id}
-        product={product}
-      />
-    </Fragment>
-  ));
-
+  <Fragment key={product.id}>
+    <ProudctCard
+      setProductToRemove={() => setProductToRemove(product)}
+      openRemoveModal={() => openRemoveModal()}
+      setProductToEdit={setProductToEdit}
+      setProductToEditIdx={setProductToEditIdx}
+      idx={idx}
+      openEditModal={() => openEditModal(product, idx)}
+      key={product.id}
+      product={product}
+    />
+  </Fragment>
+));
   const renderFormInput = fromInputList.map((input: IFormInput, index) => (
     <div key={input.id} className="flex flex-col gap-2 mb-2">
       <label htmlFor={input.name} className="font-semibold">
@@ -267,10 +292,24 @@ const App: React.FC = () => {
           </div>
         </form>
       </Model>
+      {/* Remove Product */}
+      <Model
+        isOpen={isRemoveOpen}
+        closeModal={closeModal}
+        title="Are you Sure to remove this modal"
+      >
+          <p className="text-gray-500 text-md font-medium">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis  eum unde corporis odit voluptatem repellendus minus incidunt laudantium! Quaerat.</p>
+<div className="flex gap-3 pt-1  ">
+            <Button className="flex-1 bg-red-600 " onClick={removeHandler}>Yes, Remove</Button>
+          <Button type="button" onClick={closeRemoveModal} className="flex-1 bg-gray-100 hover:bg-gray-200" style={{color:"black"}}>Cancel</Button>
+</div>
+      </Model>
 
       <div className="m-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 ...">
         {renderProductList}
       </div>
+
+
 
       {/* Edit Product Modal */}
       <Model
@@ -316,6 +355,7 @@ const App: React.FC = () => {
           </div>
         </form>
       </Model>
+      <Toaster/>
     </main>
   );
 };

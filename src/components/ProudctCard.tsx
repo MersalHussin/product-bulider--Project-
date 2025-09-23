@@ -7,15 +7,17 @@ import { textSlicer } from "./utils/functions";
 interface IProps {
   product: IProudct
   setProductToEdit: (product:IProudct) => void
+  setProductToRemove:(product:IProudct) => void
   openEditModal: () => void
   setProductToEditIdx : (value:number) => void
+  openRemoveModal: () => void
   idx: number
 }
 
 
 
 // -------------- Render ---------------
-const ProudctCard = ({product, setProductToEdit , openEditModal , setProductToEditIdx ,idx}: IProps) => {
+const ProudctCard = ({product, setProductToEdit , openEditModal , setProductToEditIdx, openRemoveModal ,  setProductToRemove,idx }: IProps) => {
 
     const renderProductColors = product.colors.map((color) => (
     <CircleColor
@@ -30,6 +32,11 @@ setProductToEdit(product)
 setProductToEditIdx(idx)
 openEditModal()
 }
+const onRemove = () =>{
+openRemoveModal()
+setProductToRemove(product)
+}
+
 
   return (
     <>
@@ -57,15 +64,19 @@ openEditModal()
         </div>
         <div className="flex justify-between items-center">
           <span>{product.price}$</span>
+          <div className="flex justify-center items-center gap-1">
+
+          <h3>{product.category.name}</h3>
           <Image
             className="w-10 h-10 h object-cover  rounded-full"
             imageURL={product.category.imageURL}
             altText={product.title}
-          />
+            />
+            </div>
         </div>
         <div className="buttons flex gap-3">
           <Button  className="bg-blue-600" width="w-full" onClick={onEdit}>Edit</Button>
-          <Button className="bg-red-500" width="w-full">Delete</Button>
+          <Button className="bg-red-500" width="w-full" onClick={onRemove}>Delete</Button>
 
         </div>
       </div>
