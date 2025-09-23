@@ -98,17 +98,16 @@ export const fromInputList: IFormInput[] = [
 
 
 export const colors: string[] = [
+    "green",
+    "teal",
+    "black",
+    "white",
+    "navy",
+    "silver",
+    "red",
     "#e45689",
     "#000000",
-    "#ff00ff",
     "#ff4d6d",
-"#1a1a1a",
-"#ff1493",
-"#ff9900",
-"#33ffcc",
-"#6600ff",
-"#ff3333",
-"#00ff66"
 ]
 
 export const categories:ICatogory[] = [
