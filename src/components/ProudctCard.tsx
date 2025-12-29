@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Image from "./Image";
 import type { IProudct } from "./interface";
 import Button from "./ui/Button";
@@ -6,18 +7,15 @@ import { textSlicer } from "./utils/functions";
 
 interface IProps {
   product: IProudct
-  setProductToEdit: (product:IProudct) => void
-  setProductToRemove:(product:IProudct) => void
-  openEditModal: () => void
-  setProductToEditIdx : (value:number) => void
-  openRemoveModal: () => void
+  openEditModal: (product: IProudct, idx: number) => void
+  openRemoveModal: (product: IProudct) => void
   idx: number
 }
 
 
 
 // -------------- Render ---------------
-const ProudctCard = ({product, setProductToEdit , openEditModal , setProductToEditIdx, openRemoveModal ,  setProductToRemove,idx }: IProps) => {
+const ProudctCard = ({product, openEditModal, openRemoveModal, idx }: IProps) => {
 
     const renderProductColors = product.colors.map((color) => (
     <CircleColor
@@ -27,14 +25,12 @@ const ProudctCard = ({product, setProductToEdit , openEditModal , setProductToEd
   ));
 
 // --------------Handelr---------------
-const onEdit = () =>{
-setProductToEdit(product)
-setProductToEditIdx(idx)
-openEditModal()
+const onEdit = () => {
+  openEditModal(product, idx);
 }
-const onRemove = () =>{
-openRemoveModal()
-setProductToRemove(product)
+
+const onRemove = () => {
+  openRemoveModal(product);
 }
 
 
@@ -84,7 +80,7 @@ setProductToRemove(product)
   );
 };
 
-export default ProudctCard;
+export default memo(ProudctCard);
 
 // ** sm -> md -> lg -> xl -> 2xl
 // ** 640 -> 768 -> 1024 -> 1280 -> 1536

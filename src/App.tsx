@@ -1,6 +1,6 @@
 // src/App.tsx
 
-import { useState, useRef, Fragment } from "react";
+import { useState, useRef, useCallback } from "react";
 import ProudctCard from "./components/ProudctCard";
 import Model from "./components/ui/Modal";
 import Input from "./components/ui/Input";
@@ -156,34 +156,31 @@ const App: React.FC = () => {
     setTempColors([]);
   }
 
-  function openEditModal(productToEdit: IProudct, idx: number) {
+  const openEditModal = useCallback((productToEdit: IProudct, idx: number) => {
     setProductToEdit(productToEdit);
     setProductToEditIdx(idx);
     setTempColors(productToEdit.colors || []);
     setIsOpenEdit(true);
-  }
-  function openRemoveModal() {
-    setIsRemoveOpen(true)
-  }
+  },[]);
+  
+  const openRemoveModal = useCallback((product: IProudct) => {
+    setProductToRemove(product);
+    setIsRemoveOpen(true);
+  },[]);
   function closeRemoveModal() {
     setIsRemoveOpen(false)
   }
 
   // --- RENDER METHODS ---
   const renderProductList = products.map((product: IProudct, idx) => (
-  <Fragment key={product.id}>
     <ProudctCard
-      setProductToRemove={() => setProductToRemove(product)}
-      openRemoveModal={() => openRemoveModal()}
-      setProductToEdit={setProductToEdit}
-      setProductToEditIdx={setProductToEditIdx}
+      openRemoveModal={openRemoveModal}
       idx={idx}
-      openEditModal={() => openEditModal(product, idx)}
+      openEditModal={openEditModal}
       key={product.id}
       product={product}
     />
-  </Fragment>
-));
+  ));
   const renderFormInput = fromInputList.map((input: IFormInput, index) => (
     <div key={input.id} className="flex flex-col gap-2 mb-2">
       <label htmlFor={input.name} className="font-semibold">
