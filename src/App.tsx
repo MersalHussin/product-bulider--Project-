@@ -119,11 +119,11 @@ const App: React.FC = () => {
 
   };
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
-    setErrors({ ...errors, [name]: "" });
-  };
+    setProduct(prev => ({...prev, [name]: value }));
+    setErrors(prev => ({...prev,  [name]: ""}));
+  },[]);
 
   const onChangeEditHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -250,6 +250,7 @@ const App: React.FC = () => {
       <Button className="bg-indigo-600 ..." onClick={openModal}>
         Add Product
       </Button>
+
 
       {/* Add Product Modal */}
       <Model
