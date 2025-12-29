@@ -147,9 +147,9 @@ const App: React.FC = () => {
     // setProduct(defultProduct);
   }
 
-  function openModal() {
+  const openModal = useCallback(() => {
     setIsOpen(true);
-  }
+  },[])
 
   function closeEditModal() {
     setIsOpenEdit(false);
