@@ -28,6 +28,7 @@ const App: React.FC = () => {
   };
 
   // --- STATES ---
+  const InputRef = useRef<null|HTMLInputElement>(null)
   const [products, setProducts] = useState<IProudct[]>(productList);
   const [product, setProduct] = useState<IProudct>(defultProduct);
   const [proudctToEdit, setProductToEdit] = useState<IProudct>(defultProduct);
@@ -247,6 +248,7 @@ const App: React.FC = () => {
 
   return (
     <main className="container mx-auto">
+                      <Input ref={InputRef}/>
       <Button className="bg-indigo-600 ..." onClick={openModal}>
         Add Product
       </Button>
