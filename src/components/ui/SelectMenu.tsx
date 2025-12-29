@@ -5,6 +5,7 @@ import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import { CheckIcon } from '@heroicons/react/20/solid'
 import { categories } from '../../data'
 import type { ICatogory } from '../interface'
+import { memo } from 'react'
 
 interface IProps{
     selected: {name:string , imageURL:string};
@@ -54,4 +55,4 @@ function SelectMenu({selected , setSelected}: IProps) {
     </Listbox>
   )
 }
- export default SelectMenu
+ export default memo(SelectMenu)

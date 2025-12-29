@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface IProps{
 msg: string
 
@@ -10,4 +12,4 @@ const ErrorMessage = ({msg}: IProps ) => {
     );
 }
 
-export default ErrorMessage;
+export default memo(ErrorMessage);

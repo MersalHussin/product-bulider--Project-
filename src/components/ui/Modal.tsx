@@ -2,7 +2,7 @@
 
 // ١. نتأكد من استيراد أنواع React مثل RefObject و ReactNode
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment, type ReactNode } from 'react';
+import React, { Fragment, memo, type ReactNode } from 'react';
 
 
 interface IProps {
@@ -65,4 +65,4 @@ const Modal: React.FC<IProps> = ({ isOpen, closeModal, title, children, initialF
   );
 }
 
-export default Modal;
+export default memo(Modal);

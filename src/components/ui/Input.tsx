@@ -1,7 +1,7 @@
 // src/components/ui/Input.tsx
 
 import type { InputHTMLAttributes } from 'react';
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 
 const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(({ ...rest }, ref) => {
   return (
@@ -15,4 +15,4 @@ const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>
 
 Input.displayName = 'Input';
 
-export default Input;
+export default memo(Input);
